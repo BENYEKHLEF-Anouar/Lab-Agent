@@ -10,7 +10,6 @@ trigger: always_on
 - **Templating** : Blade (moteur de templates Laravel)
 - **ORM** : Eloquent
 - **Database** : MySQL
-- **Cache** : Redis (recommandé pour la production)
 
 ## Frontend
 - **UI Library** : **Preline UI** (composants Tailwind CSS pré-construits)
@@ -30,12 +29,7 @@ trigger: always_on
 
 ## Libraries & Packages (Spatie)
 - **spatie/laravel-permission** : Gestion des rôles et permissions
-- **spatie/laravel-medialibrary** : Gestion des médias (images, fichiers)
-- **spatie/laravel-activitylog** : Logs d'activité
-- **spatie/laravel-backup** : Système de sauvegarde
-- **spatie/laravel-query-builder** : Construction de requêtes API
-- **spatie/laravel-sluggable** : Génération automatique de slugs
-- Autres packages Spatie selon les besoins du projet
+
 
 ## Architecture
 

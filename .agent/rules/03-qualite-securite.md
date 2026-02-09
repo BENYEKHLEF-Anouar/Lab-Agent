@@ -120,21 +120,3 @@ $articles = Article::with('user', 'comments')->get();
 ### Monitoring (Production)
 - Monitorer les performances avec **Laravel Debugbar** (dev uniquement)
 
-## Deployment
-
-### Checklist Pré-Production
-- [ ] Variables `.env` configurées pour la production
-- [ ] `APP_DEBUG=false` en production
-- [ ] Certificat SSL actif (HTTPS)
-- [ ] Caches optimisés (`config:cache`, `route:cache`, `view:cache`)
-- [ ] Assets compilés pour production : `npm run build`
-- [ ] Migrations testées sur base de staging
-- [ ] Backups automatiques configurés (spatie/laravel-backup)
-- [ ] Logs configurés et rotatifs
-- [ ] Tests passent : `php artisan test`
-
-### Best Practices Deployment
-- Utiliser des outils CI/CD (GitHub Actions, GitLab CI)
-- Déployer via des scripts automatisés (Laravel Forge, Envoyer, Deployer)
-- Avoir un environnement de staging identique à la production
-- Faire des rollbacks si nécessaire avec Git tags

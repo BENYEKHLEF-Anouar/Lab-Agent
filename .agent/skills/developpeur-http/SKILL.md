@@ -9,9 +9,9 @@ description: Gère les Routes, Controllers, et FormRequests pour orchestrer les 
 **Mission** : Orchestrer les requêtes entrantes, valider les données utilisateurs, et retourner les réponses (HTML ou JSON) en déléguant la logique métier aux Services.
 
 ### 🚫 Interdictions Globales (Règles d'Or)
-1. **Contrôleurs Fins** (No Fat Controllers) : Un contrôleur ne doit jamais contenir de logique métier ou de requêtes Eloquent complexes.
-2. **Validation Obligatoire** (Mandatory Validation) : Ne jamais traiter d'input sans passer par une FormRequest.
-3. **Sécurité Prioritaire** (Security First) : Toujours vérifier les autorisations (Policies) avant de traiter une action.
+1. **Contrôleurs Fins** : Un contrôleur ne doit jamais contenir de logique métier.
+2. **Validation Obligatoire** : Ne jamais traiter d'input sans passer par une FormRequest.
+3. **Sécurité Prioritaire** : Toujours vérifier les autorisations (Policies).
 
 ---
 
@@ -19,41 +19,36 @@ description: Gère les Routes, Controllers, et FormRequests pour orchestrer les 
 
 ### Action A : Créer Controller CRUD
 > **Description** : Générer un contrôleur pour une ressource.
-- **Entrées** : Nom de la ressource (ex: `Article`).
+> **Capacité** : Voir `resources/capacité-controller-crud.md`.
+- **Entrées** : Nom de la ressource.
 - **Sorties** : `app/Http/Controllers/[Name]Controller.php`.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - Utilise le Route Model Binding.
-  - Injecte le Service correspondant dans les méthodes nécessaires.
-  - Retourne des vues Blade ou des Redirects avec messages flash.
+- **✅ Points de Contrôle** : Injection Service, Retour Vue/Redirect.
 
 ### Action B : Créer FormRequest
 > **Description** : Créer une classe de validation pour une requête.
-- **Entrées** : Règles de validation.
+> **Capacité** : Voir `resources/capacité-form-request.md`.
+- **Entrées** : Règles.
 - **Sorties** : `app/Http/Requests/[Name]Request.php`.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - La méthode `authorize()` retourne un test de Policy (ex: `$this->user()->can(...)`).
-  - Les règles sont complètes et les messages d'erreur sont personnalisés si nécessaire.
+- **✅ Points de Contrôle** : `authorize()` implémenté.
 
 ### Action C : Définir Routes
-> **Description** : Enregistrer les routes dans le fichier approprié.
-- **Entrées** : Verbe HTTP, URI, Action du contrôleur.
-- **Sorties** : `routes/web.php` ou `routes/api.php`.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - Utilise les routes nommées (`->name('...')`).
-  - Groupe les routes par middleware (auth, admin) ou par préfixe.
+> **Description** : Enregistrer les routes.
+> **Capacité** : Voir `resources/capacité-routes.md`.
+- **Entrées** : Verbe, URI, Action.
+- **Sorties** : `routes/web.php` ou `api.php`.
+- **✅ Points de Contrôle** : Routes nommées.
 
 ---
 
 ## 🔄 Scénarios d'Exécution (Algorithmes)
 
 ### Scénario 1 : Ajout d'une Route CRUD complète
-1. **Route** : Ajouter `Route::resource()` ou les routes individuelles.
-2. **Request** : Créer les FormRequests pour `store` et `update`.
-3. **Controller** : Implémenter les méthodes en appelant le Service.
-4. **Auth** : Appliquer le middleware ou vérifier la Policy.
+1. **Route** : Action C.
+2. **Request** : Action B.
+3. **Controller** : Action A.
 
 ---
 
 ## ⚙️ Standards & Conventions
-1. **Naming** : Contrôleurs au singulier + suffixe `Controller` (ex: `ArticleController`).
-2. **Structure** : Garder les méthodes dans l'ordre standard : `index`, `create`, `store`, `show`, `edit`, `update`, `destroy`.
+1. **Naming** : Suffixe `Controller`.
+2. **Structure** : Ordre standard CRUD.

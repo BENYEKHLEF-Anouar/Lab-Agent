@@ -19,58 +19,42 @@ description: Implémente les Services, la logique métier, et définit les Polic
 
 ### Action A : Créer Service Métier
 > **Description** : Créer une classe de Service pour encapsuler un domaine métier.
-- **Entrées** : Nom du domaine (ex: `Article`), Méthodes requises.
+> **Capacité** : Voir `resources/capacité-service.md`.
+- **Entrées** : Nom du domaine, Méthodes.
 - **Sorties** : `app/Services/[Nom]Service.php`.
-- **❌ Interdictions Spécifiques** :
-  - Ne pas créer de Service "Fourre-tout". Un Service = Un Domaine.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - La classe est dans le namespace `App\Services`.
-  - Les méthodes sont typées (arguments et retour).
-  - Aucune dépendance à `Request` ou `Auth::user()` (passer l'user en paramètre).
+- **✅ Points de Contrôle** : Namespace `App\Services`.
 
 ### Action B : Implémenter Logique (Méthode)
-> **Description** : Coder le corps d'une méthode de service (Algorithme, Transaction, Event).
-- **Entrées** : Signature de la méthode, Règles de gestion.
-- **Sorties** : Code PHP dans la méthode.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - Utilisation de `DB::transaction` si modifications multiples.
-  - Gestion des exceptions (`throw` si erreur métier).
-  - Retourne des objets typés (DTO ou Model) et non des tableaux associatifs flous.
+> **Description** : Coder le corps d'une méthode de service.
+> **Capacité** : Voir `resources/capacité-logique.md`.
+- **Entrées** : Signature, Règles.
+- **Sorties** : Code PHP.
+- **✅ Points de Contrôle** : Transaction, Exceptions.
 
 ### Action C : Définir Policy (Autorisation)
-> **Description** : Créer et implémenter une Policy pour sécuriser l'accès aux ressources.
-- **Entrées** : Modèle cible (ex: `Article`).
+> **Description** : Créer et implémenter une Policy.
+> **Capacité** : Voir `resources/capacité-policy.md`.
+- **Entrées** : Modèle cible.
 - **Sorties** : `app/Policies/[Model]Policy.php`.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - La Policy est enregistrée (automatique en Laravel 11 ou via AuthServiceProvider).
-  - Les méthodes standard (`view`, `create`, `update`, `delete`) sont implémentées.
 
-### Action D : Gérer Médias (Spatie MediaLibrary)
-> **Description** : Ajouter la gestion des fichiers à un modèle.
-- **Entrées** : Fichier uploadé, Collection cible.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - Le modèle implémente `HasMedia` et utilise `InteractsWithMedia`.
-  - Utilise `addMedia()` pour le stockage et `getFirstMediaUrl()` pour la récupération.
-
-### Action E : Gérer Rôles/Permissions (Spatie Permission)
+### Action D : Gérer Rôles/Permissions (Spatie Permission)
 > **Description** : Assigner des droits à un utilisateur.
-- **Entrées** : Nom du rôle ou de la permission.
-- **✅ Points de Contrôle (Definition of Done)** :
-  - Utilise les méthodes `$user->assignRole()` ou `$user->givePermissionTo()`.
-  - Vérifie les droits via `@can` dans Blade ou `$user->can()` dans le Service.
+> **Capacité** : Voir `resources/capacité-spatie-permission.md`.
+- **Entrées** : Rôle, Permission.
+- **✅ Points de Contrôle** : `HasRoles` implémenté.
 
 ---
 
 ## 🔄 Scénarios d'Exécution (Algorithmes)
 
 ### Scénario 1 : Implémentation d'une Feature Métier
-1. **Design** : Définir l'interface du Service (`interface` ou `class` publique).
-2. **Sécurité** : Créer la Policy associée au modèle manipulé via **Action C**.
-3. **Logique** : Implémenter les méthodes du Service via **Action A** et **B**.
+1. **Design** : Définir l'interface du Service.
+2. **Sécurité** : Créer la Policy via **Action C**.
+3. **Logique** : Implémenter via **Action A** et **B**.
 
 ---
 
 ## ⚙️ Standards & Conventions
-1. **Injection** : Préférer l'injection de dépendance dans le constructeur.
-2. **Typage** : `strict_types=1` obligatoire sur tous les fichiers PHP.
-3. **Nommage** : Verbe + Nom pour les méthodes (ex: `publishArticle`, `archiveUser`).
+1. **Injection** : Constructeur.
+2. **Typage** : `strict_types=1`.
+3. **Nommage** : Verbe + Nom.

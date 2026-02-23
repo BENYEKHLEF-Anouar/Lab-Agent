@@ -1,42 +1,76 @@
 ---
-description: Workflow complet pour ajouter une nouvelle fonctionnalité (CRUD)
+description: Workflow orchestrateur intelligent pour le développement de site web
 ---
 
-# Workflow : Développement d'une Feature CRUD
+# Workflow : Develop (`/develop`)
 
-Ce workflow guide le développement d'une nouvelle fonctionnalité de bout en bout, en respectant l'architecture MVC + Services.
+**Objectif** : Orchestrer le processus de développement en appelant séquentiellement les workflows appropriés.
+**Principe** : Chaque skill gère sa propre détection d'état et décide s'il doit agir.
 
-## 🛠️ Étapes
+## Exécution
 
-### 📊 1. Couche Data (Skill: developpeur-data)
-1.  **Migration** : Exécuter **Action A** pour créer la table.
-    - *Entrée* : `php artisan make:migration create_[table]_table`.
-2.  **Model** : Exécuter **Action B** pour configurer le modèle Eloquent.
-    - *Check* : `$fillable` et relations.
-3.  **Data** : Exécuter **Action C** pour générer Factory et Seeder.
-// turbo
-4.  **Run** : `php artisan migrate --seed`.
+### 1. Recueillir l'Information
+- Demander : "Quelle page souhaitez-vous développer ? (home, contact, about, etc.)"
+- Stocker : `$PAGE`
 
-### 🧠 2. Couche Business (Skill: developpeur-business)
-1.  **Service** : Exécuter **Action A** pour créer la classe Service.
-    - *Check* : Namespace `App\Services`.
-2.  **Logique** : Exécuter **Action B** pour implémenter les méthodes métier.
-    - *Règle* : Transactions et Exceptions.
-3.  **Policy** : Exécuter **Action C** pour sécuriser l'accès.
+### 2. Exécution Séquentielle
 
-### 🌐 3. Couche HTTP (Skill: developpeur-http)
-1.  **Request** : Exécuter **Action B** pour créer la FormRequest de validation.
-2.  **Controller** : Exécuter **Action A** pour créer le contrôleur CRUD.
-    - *Check* : Injection du Service.
-3.  **Routes** : Exécuter **Action C** pour enregistrer les routes.
+**Appeler les workflows dans l'ordre du processus** :
 
-### 🎨 4. Couche Frontend (Skill: developpeur-frontend)
-1.  **Composants** : Exécuter **Action A** ou **B** pour préparer les éléments UI.
-2.  **Vues** : Assembler la page en utilisant les composants Blade et Preline.
-3.  **Interactivité** : Exécuter **Action C** pour ajouter Alpine.js si nécessaire.
+#### Étape 1 : Analyse Besoin
+```
+Appeler : /analyse-besoin
+→ Le skill analyse si cahier-des-charges.md existe
+→ Si manquant : Créer le cahier
+→ Si existe : Passer à l'étape suivante
+```
 
-## ✅ Validation Finale
-1.  Tester le CRUD complet dans le navigateur.
-// turbo
-2.  Lancer les tests avec `php artisan test`.
-3.  Vérifier le code avec Laravel Pint : `./vendor/bin/pint`.
+#### Étape 2 : Architecture Contenu
+```
+Appeler : /architecture-contenu avec $PAGE
+→ Le skill vérifie si wireframes/$PAGE.md existe
+→ Si manquant : Créer le wireframe + sitemap
+→ Si existe : Passer à l'étape suivante
+```
+
+#### Étape 3 : Design UI
+```
+Appeler : /designe-ui avec $PAGE
+→ Le skill détecte automatiquement l'action nécessaire :
+  - Action 0 : Si comp-$PAGE.md manquant
+  - Action A : Si charte-graphique manquante
+  - Actions B+C : Si composants manquants
+  - Action D : Si mockup manquant
+  - Skip : Si tout existe déjà
+```
+
+#### Étape 4 : Développement Front
+```
+Appeler : /develope-front avec $PAGE
+→ Le skill vérifie si mockups/$PAGE.html existe
+→ Si manquant : Afficher erreur + suggérer /designe-ui
+→ Si existe : Intégrer le mockup en code production
+```
+
+### 3. Résultat
+- Afficher : "✅ Page $PAGE développée avec succès !"
+- Lister les fichiers créés
+
+---
+
+## Principe de Fonctionnement
+
+**Responsabilité Distribuée** :
+- **Workflow** : Orchestre l'ordre d'exécution
+- **Skills** : Détectent leur propre état et agissent en conséquence
+
+**Optimisation des Dépendances** :
+- Si `comp-$PAGE.md` existe → `wireframes/$PAGE.md` existe forcément
+- Si `mockups/$PAGE.html` existe → `comp-$PAGE.md` existe forcément
+- Les skills utilisent ces dépendances pour éviter les vérifications inutiles
+
+**Gestion des Composants** :
+- Chaque skill vérifie `components-lib/manifest.md` avant création
+- Si composant existe → Réutiliser
+- Si similaire existe → Proposer variant
+- Si nouveau → Créer

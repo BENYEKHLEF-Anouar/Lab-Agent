@@ -2,7 +2,7 @@
 
 ## Front-end
 - **CSS** : Tailwind CSS (v3+)
-- **JS** : Alpine.js
+- **JS** : Vanilla JS
 - **Components** : Preline UI
 
 ## Outils
